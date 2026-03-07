@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,5 +38,29 @@ public class UserService {
     @Transactional
     public void deleteById(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    @Transactional
+    public UserDTO create(UserDTO dto) {
+        User user = userToUserDTO.toEntity(dto);
+        user.setId(null);
+        User saved = userRepository.save(user);
+        return userToUserDTO.toDTO(saved);
+    }
+
+    @Transactional
+    public UserDTO update(Integer id, UserDTO dto) {
+        User user = userRepository.findById(id).orElse(null);
+        if(user == null) {
+            return null;
+        }
+        userToUserDTO.updateEntity(user, dto);
+        User saved = userRepository.save(user);
+        return userToUserDTO.toDTO(saved);
+    }
+
+    @Transactional
+    public UserDTO findByName(String name) {
+        return userRepository.findByName(name).map(userToUserDTO::toDTO).orElse(null);
     }
 }

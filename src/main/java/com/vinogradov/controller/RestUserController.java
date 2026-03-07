@@ -3,24 +3,50 @@ package com.vinogradov.controller;
 import com.vinogradov.dto.UserDTO;
 import com.vinogradov.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/users")
 @AllArgsConstructor
 public class RestUserController {
 
     private final UserService userService;
 
-    @GetMapping("/users")
-    public List<UserDTO> users() {
+    @GetMapping
+    public List<UserDTO> findAll() {
         return userService.findAll();
     }
 
-    @GetMapping("/users/{id}")
-    public UserDTO getUser(@PathVariable("id") Integer id) {
-        return userService.findById(id);
+    @GetMapping("/{id}")
+    public UserDTO findById(@PathVariable("id") Integer id) {
+        UserDTO userDto = userService.findById(id);
+        if(userDto == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return userDto;
+    }
+
+    @PostMapping
+    public UserDTO create(@RequestBody UserDTO dto) {
+        return userService.create(dto);
+    }
+
+    @PutMapping("/{id}")
+    public UserDTO update(@PathVariable("id") Integer id, @RequestBody UserDTO dto) {
+        UserDTO updated = userService.update(id, dto);
+        if(updated == null) {
+            throw  new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        return updated;
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Integer id) {
+        userService.deleteById(id);
     }
 }

@@ -14,6 +14,7 @@ val postgreVersion: String by project
 val freemarkerVersion: String by project
 val lombokVersion: String by project
 val hikariVersion: String by project
+val springDataVersion: String by project
 repositories {
     mavenCentral()
 }
@@ -28,6 +29,7 @@ dependencies {
     implementation("org.postgresql:postgresql:$postgreVersion")
     implementation("org.freemarker:freemarker:$freemarkerVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
+    implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
