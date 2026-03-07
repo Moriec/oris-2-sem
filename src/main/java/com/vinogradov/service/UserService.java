@@ -3,9 +3,9 @@ package com.vinogradov.service;
 import com.vinogradov.dto.UserDTO;
 import com.vinogradov.model.User;
 import com.vinogradov.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -44,7 +44,7 @@ public class UserService {
     public UserDTO create(UserDTO dto) {
         User user = userToUserDTO.toEntity(dto);
         user.setId(null);
-        User saved = userRepository.save(user);
+        User saved = userRepository.saveAndFlush(user);
         return userToUserDTO.toDTO(saved);
     }
 
