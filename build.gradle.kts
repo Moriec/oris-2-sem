@@ -15,6 +15,7 @@ val freemarkerVersion: String by project
 val lombokVersion: String by project
 val hikariVersion: String by project
 val springDataVersion: String by project
+val swaggerVersion: String by project
 repositories {
     mavenCentral()
 }
@@ -30,6 +31,7 @@ dependencies {
     implementation("org.freemarker:freemarker:$freemarkerVersion")
     implementation("com.zaxxer:HikariCP:$hikariVersion")
     implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
