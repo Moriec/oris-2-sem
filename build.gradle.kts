@@ -16,6 +16,10 @@ val lombokVersion: String by project
 val hikariVersion: String by project
 val springDataVersion: String by project
 val swaggerVersion: String by project
+val jacksonVersion: String by project
+val springSecurityVersion: String by project
+
+
 repositories {
     mavenCentral()
 }
@@ -33,10 +37,15 @@ dependencies {
     implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
 
+    implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
+    implementation("org.springframework.security:spring-security-core:${springSecurityVersion}")
+    implementation("org.springframework.security:spring-security-web:${springSecurityVersion}")
+    implementation("org.springframework.security:spring-security-config:${springSecurityVersion}")
+    implementation("org.springframework.security:spring-security-taglibs:${springSecurityVersion}")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
-
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.15.2")
 }
 
 tasks.test {
