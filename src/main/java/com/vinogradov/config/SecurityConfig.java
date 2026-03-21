@@ -19,8 +19,8 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(a -> a
-                        .requestMatchers("/", "/register").permitAll()
-                        .requestMatchers("/hello").hasAuthority("USER")
+                        .requestMatchers("/", "/register", "/notes/public").permitAll()
+                        .requestMatchers("/notes/**").hasAuthority("USER")
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
