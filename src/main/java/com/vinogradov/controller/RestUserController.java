@@ -1,6 +1,7 @@
 package com.vinogradov.controller;
 
 import com.vinogradov.dto.UserDTO;
+import com.vinogradov.dto.UserUsernamePasswordMail;
 import com.vinogradov.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,11 @@ import java.util.List;
 public class RestUserController {
 
     private final UserService userService;
+
+    @PostMapping("/create-email")
+    public void addUser(@RequestBody UserUsernamePasswordMail userDto) {
+        userService.createUser(userDto);
+    }
 
     @GetMapping
     public List<UserDTO> findAll() {

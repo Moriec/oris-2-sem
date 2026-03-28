@@ -1,7 +1,7 @@
 plugins {
     id("java")
-    id("application")
-    id("war")
+    id("org.springframework.boot") version "3.4.4"
+    id("io.spring.dependency-management") version "1.1.7"
 }
 
 group = "com.vinogradov"
@@ -25,27 +25,24 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework:spring-webmvc:$springVersion")
-    implementation("org.springframework:spring-jdbc:${springVersion}")
-    implementation("org.springframework:spring-orm:${springVersion}")
-    implementation("org.springframework:spring-context-support:${springVersion}")
-    implementation("jakarta.servlet:jakarta.servlet-api:$jakartaVersion")
-    implementation("org.hibernate.orm:hibernate-core:$hibernateVersion")
-    implementation("org.postgresql:postgresql:$postgreVersion")
-    implementation("org.freemarker:freemarker:$freemarkerVersion")
-    implementation("com.zaxxer:HikariCP:$hikariVersion")
-    implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("org.springframework.data:spring-data-jpa:${springDataVersion}")
-    implementation("org.springframework.security:spring-security-core:${springSecurityVersion}")
-    implementation("org.springframework.security:spring-security-web:${springSecurityVersion}")
-    implementation("org.springframework.security:spring-security-config:${springSecurityVersion}")
-    implementation("org.springframework.security:spring-security-taglibs:${springSecurityVersion}")
-    implementation("com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    implementation("jakarta.servlet:jakarta.servlet-api:${jakartaVersion}")
+    implementation("org.postgresql:postgresql:${postgreVersion}")
+
+    implementation("org.springframework:spring-context-support:${springVersion}")
+    implementation("org.springframework.security:spring-security-taglibs")
+
+    implementation("org.springframework.boot:spring-boot-starter-freemarker")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
+
+    implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation("javax.mail:javax.mail-api:1.6.2")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
 }
 
 tasks.test {

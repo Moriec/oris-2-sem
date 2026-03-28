@@ -23,10 +23,10 @@ public class Note {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
+    @Column(name = "createdat")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(name = "ispublic")
     private boolean isPublic;
 
     @ManyToOne()

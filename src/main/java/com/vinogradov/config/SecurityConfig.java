@@ -7,6 +7,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,10 +19,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests(a -> a
-                        .requestMatchers("/", "/register", "/notes/public").permitAll()
+        httpSecurity
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(a -> a
+                        .requestMatchers("/", "/register", "/notes/public", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/notes/**").hasAuthority("USER")
                         .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/error/**").permitAll()
+                        .requestMatchers("/users/*").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
@@ -31,12 +37,14 @@ public class SecurityConfig {
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.debug(true).ignoring()
-                .requestMatchers("/css/**", "/template/**", "/js/**", "favicon.ico");
+        return web -> web.ignoring()
+                .requestMatchers("/css/**", "/template/**", "/js/**", "/favicon.ico", "/swagger-ui/**", "/v3/api-docs/**");
     }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
 }

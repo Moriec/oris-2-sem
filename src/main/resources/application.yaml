@@ -1,0 +1,38 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/oris_practice
+    username: postgres
+    password: 1234
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    enabled: false
+  freemarker:
+    enabled: true
+    suffix: .ftl
+  mail:
+    host: smtp.gmail.com
+    port: 465
+    username: "//второй акк на емайле"
+    password: "zqls faiz jjwe sngz"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          connectionTimeout: 5000
+          timeout: 5000
+          writeTimeout: 5000
+          ssl:
+            enable: true
+
+mail:
+  sender: Test Application
+  from: ${spring.mail.username}
+  subject: "Rlikni Na ssilky Pls"
+  content: "Dorogoi $name, poshaluista verify tvoi email: <a href=$url>VERIFY</a>"
+  base-url: http://localhost:8081

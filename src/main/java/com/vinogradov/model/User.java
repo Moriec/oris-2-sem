@@ -17,10 +17,27 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column
     private String name;
+
+    @Column
     private String lastname;
+
+    @Column
     private String login;
+
+    @Column
     private String password;
+
+    @Column
+    private String verificationCode;
+
+    @Column
+    private Boolean verified;
+
+    @Column
+    private String mail;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
