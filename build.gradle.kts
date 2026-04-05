@@ -1,7 +1,10 @@
+import java.util.Properties
+
 plugins {
     id("java")
     id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.7"
+    id("org.liquibase.gradle") version "2.2.2"
 }
 
 group = "com.vinogradov"
@@ -43,8 +46,30 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("javax.mail:javax.mail-api:1.6.2")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
+
+    implementation("org.liquibase:liquibase-core:4.33.0")
+    liquibaseRuntime("org.liquibase:liquibase-core:4.33.0")
+    liquibaseRuntime("org.postgresql:postgresql:${postgreVersion}")
+    liquibaseRuntime("info.picocli:picocli:4.6.3")
 }
 
 tasks.test {
     useJUnitPlatform()
+}
+
+val props = Properties()
+props.load(file("src/main/resources/db/liquibase.properties").inputStream())
+
+println("DEBUG props: change-lop-file=${props["change-lop-file"]}, url=${props["url"]}")
+
+liquibase {
+    activities.register("main") {
+        arguments = mapOf(
+        "changeLogFile" to props["change-lop-file"],
+        "url" to props["url"].toString(),
+        "username" to props["username"].toString(),
+            "password" to props["password"].toString(),
+            "driver" to props["driver-class-name"]
+        )
+    }
 }
