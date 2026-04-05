@@ -1,0 +1,181 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="UserHome (generated)" id="1775393123532-1">
+        <createTable tableName="users">
+            <column autoIncrement="true" name="user_id" startWith="30" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="users_pkey"/>
+            </column>
+            <column name="username" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(50)"/>
+            <column name="last_name" type="VARCHAR(50)"/>
+            <column name="password_hash" type="VARCHAR(256)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="balance" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueNumeric="0" name="rating_points" type="INTEGER"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="registration_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="last_login" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-2">
+        <createTable tableName="subjects">
+            <column autoIncrement="true" name="subject_id" startWith="12" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="subjects_pkey"/>
+            </column>
+            <column name="subject_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="subject_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column defaultValueNumeric="100" name="max_score" type="INTEGER"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-3">
+        <createTable tableName="student_result">
+            <column autoIncrement="true" name="result_id" startWith="5" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="student_result_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER"/>
+            <column name="subject_id" type="INTEGER"/>
+            <column name="actual_score" type="INTEGER"/>
+            <column name="semester" type="INTEGER"/>
+            <column name="academic_year" type="VARCHAR(10)"/>
+            <column defaultValueBoolean="false" name="is_finelized" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-4">
+        <createTable tableName="betting_events">
+            <column autoIncrement="true" name="event_id" startWith="12" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="betting_events_pkey"/>
+            </column>
+            <column name="target_user_id" type="INTEGER"/>
+            <column name="subject_id" type="INTEGER"/>
+            <column name="semester" type="INTEGER"/>
+            <column name="academic_year" type="VARCHAR(10)"/>
+            <column name="event_type" type="VARCHAR(20)"/>
+            <column defaultValue="OPEN" name="status" type="VARCHAR(20)"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="close_it" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="description" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-5">
+        <createTable tableName="bets">
+            <column autoIncrement="true" name="bet_id" startWith="19" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="bets_pkey"/>
+            </column>
+            <column name="bettor_id" type="INTEGER"/>
+            <column name="event_id" type="INTEGER"/>
+            <column name="bet_amount" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="PENDING" name="status" type="VARCHAR(20)"/>
+            <column name="payout_amount" type="INTEGER"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="resolved_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+            <column name="predicted_score_min" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="predicted_score_max" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-6">
+        <createTable tableName="transactions">
+            <column autoIncrement="true" name="transaction_id" startWith="22" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="transactions_pkey"/>
+            </column>
+            <column name="user_id" type="INTEGER"/>
+            <column name="transaction_type" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="INTEGER"/>
+            <column name="balance_before" type="INTEGER"/>
+            <column name="balance_after" type="INTEGER"/>
+            <column name="related_bet_id" type="INTEGER"/>
+            <column name="description" type="TEXT"/>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="created_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-7">
+        <createTable tableName="achievements">
+            <column autoIncrement="true" name="achievements_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="achievements_pkey"/>
+            </column>
+            <column name="achevements_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT"/>
+            <column name="icon_url" type="VARCHAR(255)"/>
+            <column defaultValueNumeric="0" name="points_reward" type="INTEGER"/>
+            <column name="achievement_type" type="VARCHAR(20)"/>
+            <column name="criteria_json" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-8">
+        <createTable tableName="user_achievements">
+            <column name="user_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_achievements_pkey"/>
+            </column>
+            <column name="achievements_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="user_achievements_pkey"/>
+            </column>
+            <column defaultValueComputed="CURRENT_TIMESTAMP" name="earned_at" type="TIMESTAMP WITHOUT TIME ZONE"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-9">
+        <addUniqueConstraint columnNames="email" constraintName="users_email_key" tableName="users"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-10">
+        <addUniqueConstraint columnNames="username" constraintName="users_username_key" tableName="users"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-11">
+        <addUniqueConstraint columnNames="subject_code" constraintName="subjects_subject_code_key" tableName="subjects"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-12">
+        <addUniqueConstraint columnNames="user_id, subject_id, semester, academic_year" constraintName="student_result_user_id_subject_id_semester_academic_year_key" tableName="student_result"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-13">
+        <addForeignKeyConstraint baseColumnNames="bettor_id" baseTableName="bets" constraintName="bets_bettor_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-14">
+        <addForeignKeyConstraint baseColumnNames="event_id" baseTableName="bets" constraintName="bets_event_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="event_id" referencedTableName="betting_events" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-15">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="betting_events" constraintName="betting_events_subject_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="subject_id" referencedTableName="subjects" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-16">
+        <addForeignKeyConstraint baseColumnNames="target_user_id" baseTableName="betting_events" constraintName="betting_events_target_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-17">
+        <addForeignKeyConstraint baseColumnNames="subject_id" baseTableName="student_result" constraintName="student_result_subject_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="subject_id" referencedTableName="subjects" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-18">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="student_result" constraintName="student_result_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-19">
+        <addForeignKeyConstraint baseColumnNames="related_bet_id" baseTableName="transactions" constraintName="transactions_related_bet_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="bet_id" referencedTableName="bets" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-20">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="transactions" constraintName="transactions_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-21">
+        <addForeignKeyConstraint baseColumnNames="achievements_id" baseTableName="user_achievements" constraintName="user_achievements_achievements_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="achievements_id" referencedTableName="achievements" validate="true"/>
+    </changeSet>
+    <changeSet author="UserHome (generated)" id="1775393123532-22">
+        <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="user_achievements" constraintName="user_achievements_user_id_fkey" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="user_id" referencedTableName="users" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
