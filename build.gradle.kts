@@ -5,6 +5,7 @@ plugins {
     id("org.springframework.boot") version "3.4.4"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.liquibase.gradle") version "2.2.2"
+    id("jacoco")
 }
 
 group = "com.vinogradov"
@@ -51,10 +52,13 @@ dependencies {
     liquibaseRuntime("org.liquibase:liquibase-core:4.33.0")
     liquibaseRuntime("org.postgresql:postgresql:${postgreVersion}")
     liquibaseRuntime("info.picocli:picocli:4.6.3")
-}
 
-tasks.test {
-    useJUnitPlatform()
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    //testImplementation("org.junit.jupiter:junit-jupiter-engine:5.14.0")
+    //testImplementation("org.junit.jupiter:junit-jupiter-api:5.14.0")
+    //testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.14.0")
+
 }
 
 val props = Properties()
@@ -65,11 +69,51 @@ println("DEBUG props: change-lop-file=${props["change-lop-file"]}, url=${props["
 liquibase {
     activities.register("main") {
         arguments = mapOf(
-        "changeLogFile" to props["change-lop-file"],
-        "url" to props["url"].toString(),
-        "username" to props["username"].toString(),
+            "changeLogFile" to props["change-lop-file"],
+            "url" to props["url"].toString(),
+            "username" to props["username"].toString(),
             "password" to props["password"].toString(),
             "driver" to props["driver-class-name"]
         )
     }
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test)
+    reports {
+        xml.required.set(false)
+        csv.required.set(false)
+        html.outputLocation.set(layout.buildDirectory.dir("jacocoHtml"))
+    }
+    classDirectories.setFrom(files(classDirectories.files.map {
+        fileTree(it).matching {
+            exclude(listOf("com/vinogradov/dto/**", "com/vinogradov/model/**", "com/vinogradov/properties/**", "com/vinogradov/config/**", "**/CustomUserDetails.class", "**/CustomUserDetailsService.class", "**/Application.class"))
+        }
+    }))
+}
+
+jacoco{
+    toolVersion = "0.8.12"
+    reportsDirectory.set(layout.buildDirectory.dir("jacoco"))
+}
+
+tasks.jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = BigDecimal.valueOf(0.50)
+            }
+        }
+    }
+
+    classDirectories.setFrom(files(classDirectories.files.map {
+        fileTree(it).matching {
+            exclude(listOf("com/vinogradov/dto/**", "com/vinogradov/model/**", "com/vinogradov/properties/**", "com/vinogradov/config/**", "**/CustomUserDetails.class", "**/CustomUserDetailsService.class", "**/Application.class"))
+        }
+    }))
 }
