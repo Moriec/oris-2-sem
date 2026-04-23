@@ -1,5 +1,7 @@
 package com.vinogradov.service;
 
+import com.vinogradov.annotation.Benchmark;
+import com.vinogradov.annotation.Metric;
 import com.vinogradov.dto.UserDTO;
 import com.vinogradov.dto.UserUsernamePasswordMail;
 import com.vinogradov.model.Role;
@@ -46,6 +48,8 @@ public class UserService {
         roleRepository.save(adminRole);
     }
 
+    @Metric
+    @Benchmark
     @Transactional
     public void registerNewUser(String username, String rawPassword) {
         List<Role> roles = roleRepository.findAll();
@@ -100,6 +104,8 @@ public class UserService {
         }
     }
 
+    @Metric
+    @Benchmark
     @Transactional
     public List<UserDTO> findAll() {
         return userRepository.findAll().stream()
@@ -107,6 +113,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    @Benchmark
     @Transactional
     public UserDTO findById(Integer id) {
         return userRepository.findById(id).map(userToUserDTO::toDTO).orElse(null);

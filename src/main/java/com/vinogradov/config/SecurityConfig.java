@@ -24,10 +24,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(a -> a
                         .requestMatchers("/", "/register", "/notes/public", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/notes/**").hasAuthority("USER")
-                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        //.requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers("/users/*").permitAll()
+                        .requestMatchers("/admin/metrics").permitAll()
+                        .requestMatchers("/admin/benchmark/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());

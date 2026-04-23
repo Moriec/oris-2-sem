@@ -2,7 +2,7 @@ server:
   port: 8081
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/stud-bet-bd
+    url: jdbc:postgresql://localhost:5432/oris_practice
     username: postgres
     password: 1234
     driver-class-name: org.postgresql.Driver
