@@ -41,6 +41,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-taglibs")
 
     implementation("org.springframework.boot:spring-boot-starter-freemarker")
+    implementation("org.springframework.boot:spring-boot-starter-websocket")
 
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")

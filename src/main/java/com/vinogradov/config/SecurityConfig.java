@@ -22,9 +22,11 @@ public class SecurityConfig {
         httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/", "/register", "/notes/public", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/", "/register", "/notes/public", "/chat/public", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .requestMatchers("/notes/**").hasAuthority("USER")
-                        //.requestMatchers("/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/chat/**").hasAuthority("USER")
+                        .requestMatchers("/ws/**").hasAuthority("USER")
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers("/users/*").permitAll()

@@ -3,4 +3,5 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
     <include file="v1/2026-04-04--01-init-test-table.xml" relativeToChangelogFile="true"/>
+    <include file="v1/2026-05-22--01-create-chat-messages.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
